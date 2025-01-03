@@ -15,7 +15,7 @@
   }
   
   .logoImage {
-    max-width: 100px;
+    max-width: 10020px;
     height: auto;
   }
   
@@ -25,7 +25,7 @@
   }
   
   .nav li {
-    margin: 15px 0;
+    margin: 10px 0;
   }
   
   .nav a {
@@ -45,4 +45,3 @@
   .nav a:active {
     background-color: #444;
   }
-  
