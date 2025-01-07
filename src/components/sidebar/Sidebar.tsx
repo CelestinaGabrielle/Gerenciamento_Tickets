@@ -1,9 +1,11 @@
+'use client';
 import React from "react";
-import styles from "../sidebar/Sidebar.module.css";
-import Logo from "../../img/logo.png";
-
 import Image from 'next/image';
 import Link from "next/link";
+
+import styles from "../sidebar/Sidebar.module.css";
+import Logo from "../../img/logo.png";
+import Logout from "../Logout/Logout";
 
 const Sidebar = () => {
   return (
@@ -23,7 +25,7 @@ const Sidebar = () => {
             <Link href="/account">Minha Conta</Link>
           </li>
           <li>
-            <Link href="#">Sair</Link>
+            <Link href="/" onClick={() => <Logout />}>Sair (Adicionar pagina de login)</Link> 
           </li>
         </ul>
       </nav>    

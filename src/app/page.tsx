@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import TicketTable from "../components/table/TicketTable";
+import TicketTable from "../components/Table/TicketTable";
 import Sidebar from "../components/sidebar/Sidebar";
 
 export default function Home() {
@@ -9,7 +9,6 @@ export default function Home() {
         <Sidebar />
       </div>
       <main className={styles.main}>
-        <h1 className={styles.h1}>Lista de Tickets</h1>
         <TicketTable />
       </main>
       <footer className={styles.footer}>Meu rodapé</footer>
