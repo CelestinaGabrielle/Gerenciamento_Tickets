@@ -72,6 +72,12 @@
   font-weight: 600;
 }
 
+.h1 {
+  color: #ccc;
+  font-size: 42px;
+  text-align: center;
+}
+
 .ctas {
   display: flex;
   gap: 16px;

@@ -33,10 +33,6 @@ a {
   text-decoration: none;
 }
 
-h1{
-  color: aliceblue;
-  align-items: center;
-}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

@@ -9,7 +9,7 @@ export default function Home() {
         <Sidebar />
       </div>
       <main className={styles.main}>
-        <h1>Lista de Tickets</h1>
+        <h1 className={styles.h1}>Lista de Tickets</h1>
         <TicketTable />
       </main>
       <footer className={styles.footer}>Meu rodapé</footer>

@@ -1,7 +1,9 @@
 import React from "react";
-import styles from "./Sidebar.module.css";
-import Image from 'next/image';  
-import Logo from "../../img/logo.png";  
+import styles from "../sidebar/Sidebar.module.css";
+import Logo from "../../img/logo.png";
+
+import Image from 'next/image';
+import Link from "next/link";
 
 const Sidebar = () => {
   return (
@@ -12,19 +14,19 @@ const Sidebar = () => {
       <nav className={styles.nav}>
         <ul>
           <li>
-            <a href="#">Home</a>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <a href="#">Dashboard</a>
+            <Link href="/dashboard">Dashboard</Link>
           </li>
           <li>
-            <a href="#">Minha Conta</a>
+            <Link href="/account">Minha Conta</Link>
           </li>
           <li>
-            <a href="#">Sair</a>
+            <Link href="#">Sair</Link>
           </li>
         </ul>
-      </nav>
+      </nav>    
     </div>
   );
 };
