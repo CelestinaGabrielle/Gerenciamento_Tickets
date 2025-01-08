@@ -20,7 +20,7 @@ const TicketTable = () => {
 
   return (
     <>
-      <h1 className={styles.tableTitle}>Lista de Tickets</h1>
+        <h1 className={styles.tableTitle}>Lista de Tickets</h1>
       <div className={styles.tableContainer}>
         <table className={styles.ticketTable}>
           <thead>
