@@ -1,16 +1,21 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import styles from "./Login.module.css";
 
-import styles from "../Forms/Login.module.css";
+interface LoginFormProps {
+  onValidSubmit: () => void; // Função para redirecionamento
+}
 
-const LoginForm: React.FC = () => {
-  // Estados para armazenar os valores dos campos e os erros
+const LoginForm: React.FC<LoginFormProps> = ({ onValidSubmit }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ username: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Função de validação
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const validateForm = () => {
     const newErrors = { username: "", password: "" };
 
@@ -20,23 +25,21 @@ const LoginForm: React.FC = () => {
       newErrors.password = "A senha deve ter pelo menos 6 caracteres.";
 
     setErrors(newErrors);
-
-    // Retorna true se não houver erros
     return !newErrors.username && !newErrors.password;
   };
 
-  // Função de envio do formulário
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      alert("VOCE ENTROU!");
-      /*  router.push('/');*/
+      onValidSubmit(); // Chama a função passada via props
+      setUsername("");
+      setPassword("");
+      setErrors({ username: "", password: "" });
     }
   };
 
   return (
     <div className={styles.card}>
-      <h2 className={styles.title}>Login</h2>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="username">Usuário</label>
@@ -55,14 +58,23 @@ const LoginForm: React.FC = () => {
 
         <div className={styles.inputGroup}>
           <label htmlFor="password">Senha</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Digite sua senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={errors.password ? styles.errorInput : ""}
-          />
+          <div className={styles.passwordWrapper}>
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={errors.password ? styles.errorInput : ""}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className={styles.togglePassword}
+            >
+              {showPassword ? "🕶" : "👀"}
+            </button>
+          </div>
           {errors.password && (
             <span className={styles.error}>{errors.password}</span>
           )}
@@ -72,10 +84,6 @@ const LoginForm: React.FC = () => {
           Entrar
         </button>
       </form>
-
-      <p className={styles.link}>
-        Esqueceu a senha? <a href="#">Recuperar</a>
-      </p>
     </div>
   );
 };

@@ -25,7 +25,7 @@ const Sidebar = () => {
             <Link href="/account">Minha Conta</Link>
           </li>
           <li>
-            <Link href="/login" onClick={() => <Logout />}>Sair (Adicionar pagina de login)</Link> 
+            <Link href="/login" onClick={() => <Logout />}>Sair</Link> 
           </li>
         </ul>
       </nav>    
