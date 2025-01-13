@@ -1,17 +1,18 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import LoginForm from "../../components/Forms/LoginForm";
 import styles from "../../components/Forms/Login.module.css";
 import Logo from "../../img/logo.png";
 
-const Login: React.FC = () => {
-  const router = useRouter();
+interface LoginProps {
+  onLogin: () => void;
+}
 
+const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleValidSubmit = () => {
-    router.push("/"); // Redireciona para a página principal
+    onLogin(); 
   };
 
   return (
