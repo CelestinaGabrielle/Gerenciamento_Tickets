@@ -5,12 +5,12 @@ import { useRouter } from 'next/router';
 const Logout = () => {
   const router = useRouter();
 
-  // Função para simular o logout
+  // Função para simular o lsogout
   const handleLogout = () => {
     // Limpar o token de autenticação ou dados da sessão
     localStorage.removeItem('authToken'); // Exemplo de remoção de token
 
-    // Redirecionar para a página de login ou página inicial
+    // Redirecionar para a página de login ou página inicaial
     router.push('/login');
   };
 
