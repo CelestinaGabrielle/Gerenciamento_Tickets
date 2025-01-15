@@ -9,15 +9,16 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ onValidSubmit }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({ username: "", password: "" });
+  const [errors, setErrors] = useState({ username: "", password: "", api: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
   const validateForm = () => {
-    const newErrors = { username: "", password: "" };
+    const newErrors = { username: "", password: "", api: "" };
 
     if (!username) newErrors.username = "O campo Usuário é obrigatório.";
     if (!password) newErrors.password = "O campo Senha é obrigatório.";
@@ -28,13 +29,43 @@ const LoginForm: React.FC<LoginFormProps> = ({ onValidSubmit }) => {
     return !newErrors.username && !newErrors.password;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      onValidSubmit(); // Chama a função passada via props
-      setUsername("");
-      setPassword("");
-      setErrors({ username: "", password: "" });
+      setLoading(true);
+      try {
+        const response = await fetch("https://logintickets.free.beeceptor.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          onValidSubmit(); // Chama a função passada via props
+          setUsername("");
+          setPassword("");
+          setErrors({ username: "", password: "", api: "" });
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            api: "Usuário ou senha inválidos.",
+          }));
+        }
+      } catch (error) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          api: "Erro ao se conectar com o servidor. Tente novamente mais tarde.",
+        }));
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -80,8 +111,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onValidSubmit }) => {
           )}
         </div>
 
-        <button className={styles.button} type="submit">
-          Entrar
+        {errors.api && <span className={styles.error}>{errors.api}</span>}
+
+        <button className={styles.button} type="submit" disabled={loading}>
+          {loading ? "Carregando..." : "Entrar"}
         </button>
       </form>
     </div>
