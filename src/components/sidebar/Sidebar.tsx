@@ -6,11 +6,7 @@ import Link from "next/link";
 import styles from "../sidebar/Sidebar.module.css";
 import Logo from "../../img/logo.png";
 
-interface SidebarProps {
-  onLogout: () => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
+const Sidebar = () => {
   return (
     <div className={styles.sidebar}>
       <div className={styles.logo}>
@@ -27,11 +23,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
           <li>
             <Link href="/account">Minha Conta</Link>
           </li>
-          <li>
-            <Link href="/login" onClick={onLogout}>Sair</Link> {/* Usa a função onLogout */}
-          </li>
+          <li> <Link href="/login">Sair</Link> {/* Usa a função onLogout */} </li>
         </ul>
-      </nav>    
+      </nav>
     </div>
   );
 };
