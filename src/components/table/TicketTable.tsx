@@ -1,26 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./TicketTable.module.css";
+import { getTickets } from "../../api/TicketApi";
+import { getStatuses } from "../../api/GitLabApi";
 
-const TicketTable = () => {
-  const tickets = [
-    {
-      id: 1,
-      title: "Erro ao carregar página",
-      priority: "Alta",
-      status: "Em progresso",
-    },
-    { id: 2, title: "Ajuste no layout", priority: "Média", status: "Pendente" },
-    {
-      id: 3,
-      title: "Correção de bugs no login",
-      priority: "Baixa",
-      status: "Concluída",
-    },
-  ];
+interface Ticket {
+  id: number;
+  type: string;
+  title: string;
+  priority: string;
+}
+
+interface GitLabStatus {
+  ticketId: number;
+  status: string;
+}
+
+const TicketTable: React.FC = () => {
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [statusMap, setStatusMap] = useState<{ [key: number]: string }>({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const ticketData = await getTickets();
+      console.log("Tickets:", ticketData);
+      setTickets(ticketData);
+
+      const statusData = await getStatuses();
+      console.log("GitLab Statuses:", statusData);
+
+      const statusMap: { [key: number]: string } = {};
+      statusData.forEach((status: GitLabStatus) => {
+        statusMap[status.ticketId] = status.status;
+      });
+
+      console.log("Status Map:", statusMap);
+      setStatusMap(statusMap);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
-        <h1 className={styles.tableTitle}>Lista de Tickets</h1>
+      <h1 className={styles.tableTitle}>Lista de Tickets</h1>
       <div className={styles.tableContainer}>
         <table className={styles.ticketTable}>
           <thead>
@@ -33,15 +55,17 @@ const TicketTable = () => {
             </tr>
           </thead>
           <tbody>
-            {tickets.map((ticket) => (
-              <tr key={ticket.id}>
-                <td>{ticket.id}</td>
-                <td>Bug</td>
-                <td>{ticket.title}</td>
-                <td>{ticket.priority}</td>
-                <td>{ticket.status}</td>
-              </tr>
-            ))}
+            {tickets.map((ticket) => {
+              return (
+                <tr key={ticket.id}>
+                  <td>{ticket.id}</td>
+                  <td>{ticket.type}</td>
+                  <td>{ticket.title}</td>
+                  <td>{ticket.priority}</td>
+                  <td>{statusMap[ticket.id]}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
