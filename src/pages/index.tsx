@@ -1,6 +1,6 @@
 "use client";
 import styles from "./page.module.css";
-import TicketTable from "../components/Table/TicketTable";
+import TicketTable from "../components/Table";
 import Sidebar from "../components/sidebar/Sidebar";
 
 export default function Home() {

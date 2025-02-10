@@ -1,7 +1,9 @@
 export default async function handler(req, res) {
   const GITLAB_API_URL = "https://git.tcm.go/api/v4";
   const TOKEN = process.env.GITLAB_ACCESS_TOKEN;
-  
+
+  console.log("Token:", TOKEN); 
+
   if (!TOKEN) {
     return res.status(400).json({ error: 'Token de acesso não encontrado.' });
   }
@@ -19,6 +21,7 @@ export default async function handler(req, res) {
     }
 
     const projects = await projectsResponse.json();
+    console.log("Projetos encontrados:", projects.length); // Log do número de projetos
 
     const issuesPromises = projects.map(async (project) => {
       console.log(`Buscando issues para o projeto ${project.name}...`);
@@ -32,10 +35,12 @@ export default async function handler(req, res) {
       );
 
       if (!issuesResponse.ok) {
-        return []; // Se falhar, retorna um array vazio para este projeto
+        console.error(`Erro ao buscar issues para o projeto ${project.name}: ${issuesResponse.statusText}`);
+        return [];
       }
 
       const issues = await issuesResponse.json();
+      console.log(`Issues encontradas para o projeto ${project.name}:`, issues.length); // Log do número de issues
 
       return issues.map((issue) => ({
         project_id: project.id,
